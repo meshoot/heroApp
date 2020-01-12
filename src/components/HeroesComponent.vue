@@ -6,7 +6,7 @@
                 :key="hero.id"
                 class="mdl-cell mdl-cell--4-col"
             >
-                <Hero
+                <cmp-hero
                     :id="hero.id"
                     :photo="hero.photo"
                     :name="hero.name"
@@ -26,7 +26,7 @@
 <script>
     import { mapActions } from 'vuex';
 
-    import Hero from "./Hero"
+    import Hero from "./HeroComponent"
 
     export default {
         name: "Heroes",
@@ -37,7 +37,7 @@
             }
         },
         components: {
-            Hero
+            'cmp-hero': Hero
         },
         methods: {
             ...mapActions(['addToFavorite', 'removeFromFavorite']),
