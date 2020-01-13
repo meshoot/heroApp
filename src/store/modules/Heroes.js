@@ -11,12 +11,12 @@ export default {
         getFoundHeroes: state => state.foundHeroes
     },
     actions: {
-        fetchHeroes(context, params) {
-            Axios.get(`${API_URL}/people/`, {params})
+         async fetchHeroes(context, params) {
+             let heroes = {};
+
+             await Axios.get(`${API_URL}/people/`, {params})
                 .then(response => response.data)
                 .then(data => {
-                    let heroes = {};
-
                     heroes.data = data.results.map(hero => ({
                         id: slicePeopleId(hero.url),
                         photo: `https://starwars-visualguide.com/assets/img/characters/${slicePeopleId(hero.url)}.jpg`,
@@ -31,9 +31,22 @@ export default {
                         previous: data.previous
                     };
 
-                    context.commit('updateHeroes', heroes);
+                    return heroes
                 })
+                 .then(heroes => {
+                     return heroes.data.forEach(hero => {
+                         hero.planet = getHeroPlanet(hero.id);
+                     });
+
+                     function getHeroPlanet(id) {
+                         return Axios.get(`${API_URL}/planets/${id}`)
+                             .then(response => response.data)
+                             .then(data => data.name);
+                     }
+                 })
                 .catch(error => console.log(error));
+
+             context.commit('updateHeroes', heroes);
         }
     },
     mutations: {
