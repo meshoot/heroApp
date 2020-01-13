@@ -1,7 +1,6 @@
 export default {
     state: {
-        isSearching: false,
-        isFiltering: true,
+        currentFilter: null,
         filters: [
             {
                 name: 'gender',
@@ -19,26 +18,19 @@ export default {
     getters: {
         getIsSearching: state => state.isSearching,
         getIsFiltering: state => state.isFiltering,
-        getAllFilters: state => state.filters
+        getAllFilters: state => state.filters,
+        currentFilter: state => state.currentFilter
     },
     actions: {
         setFilterValue(context, filter) {
             context.commit('updateFilterValue', filter);
-        },
-        setSearching(context, value) {
-            context.commit('updateSearching', value);
-        },
-        setFiltering(context, value) {
-            context.commit('updateFiltering', value);
         }
     },
     mutations: {
         updateSearching: (state, value) => state.isSearching = value,
         updateFiltering: (state, value) => state.isFiltering = value,
         updateFilterValue: (state, filter) => {
-            state.filters.map(el => {
-                if (el.name === filter.name) el.value = filter.value
-            });
+            state.currentFilter = filter.value
         }
     }
 };

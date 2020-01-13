@@ -15,7 +15,7 @@
 <script>
     import { mapGetters } from "vuex"
 
-    import Heroes from "../components/HeroesComponent";
+    import Heroes from "../components/Heroes";
 
     export default {
         name: 'FavoriteHeroes',

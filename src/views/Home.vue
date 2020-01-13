@@ -13,7 +13,7 @@
                         class="mdl-cell mdl-cell--12-col"
                     />
                     <cmp-heroes
-                        :heroes="heroes"
+                        :heroes="filteredHeroes"
                     />
                 </div>
             </section>
@@ -24,8 +24,8 @@
 <script>
     import { mapActions, mapGetters } from 'vuex'
 
-    import Search from "../components/SearchComponent"
-    import Heroes from "../components/HeroesComponent"
+    import Search from "../components/Search"
+    import Heroes from "../components/Heroes"
     import Filter from "../components/FilterComponent"
 
     export default {
@@ -41,7 +41,28 @@
             }
         },
         computed: {
-            ...mapGetters(["allHeroes", "allFoundHeroes", "getAllFilters", "getIsSearching", "getIsFiltering"]),
+
+            femaleHeroes () {
+               return  this.heroes.filter(hero => hero.gender === 'female')
+            },
+
+            maleHeroes () {
+                return  this.heroes.filter(hero => hero.gender === 'male')
+            },
+
+            naHeroes () {
+                return  this.heroes.filter(hero => hero.gender === 'n/a')
+            },
+
+            filteredHeroes () {
+                switch (this.currentFilter) {
+                    case null: return this.heroes
+                    case 'n/a': return this.naHeroes
+                    case 'female': return this.femaleHeroes
+                    case 'male': return this.maleHeroes
+                }
+            },
+            ...mapGetters(["allHeroes", "allFoundHeroes", "getAllFilters", "getIsSearching", "getIsFiltering", "currentFilter"]),
 
             heroes() {
                 return this.allHeroes;
@@ -51,9 +72,7 @@
             ...mapActions(['getHeroes', 'searchHero']),
 
             searchHandler(value) {
-                if (value.length) {
-                    this.searchHero(value);
-                }
+                this.searchHero(value);
             }
         }
     }

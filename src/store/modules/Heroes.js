@@ -20,7 +20,8 @@ export default {
                         id: slicePeopleId(hero.url),
                         photo: `https://starwars-visualguide.com/assets/img/characters/${slicePeopleId(hero.url)}.jpg`,
                         name: hero.name,
-                        isFavorite: false
+                        isFavorite: false,
+                        gender: hero.gender
                     }));
 
                     context.commit('updateHeroes', heroes);
@@ -35,7 +36,8 @@ export default {
                         id: slicePeopleId(hero.url),
                         photo: `https://starwars-visualguide.com/assets/img/characters/${slicePeopleId(hero.url)}.jpg`,
                         name: hero.name,
-                        isFavorite: false
+                        isFavorite: false,
+                        gender: hero.gender
                     }));
 
                     context.commit('updatefoundHeroes', heroes);
@@ -47,7 +49,7 @@ export default {
             state.heroes = heroes;
         },
         updatefoundHeroes(state, heroes) {
-            state.foundHeroes = heroes;
+            state.heroes = heroes;
         }
     }
 };
