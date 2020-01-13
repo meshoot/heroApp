@@ -26,7 +26,7 @@
 <script>
     import { mapActions } from 'vuex';
 
-    import Hero from "./Hero"
+    import Hero from "./HeroComponent"
 
     export default {
         name: "Heroes",

@@ -24,8 +24,8 @@
 <script>
     import { mapActions, mapGetters } from 'vuex'
 
-    import Search from "../components/Search"
-    import Heroes from "../components/Heroes"
+    import Search from "../components/SearchComponent"
+    import Heroes from "../components/HeroesComponent"
     import Filter from "../components/FilterComponent"
 
     export default {
