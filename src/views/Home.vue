@@ -4,16 +4,18 @@
             <h1>Главная</h1>
             <section class="mdl-grid">
                 <cmp-filter
-                    :filters="getAllFilters"
+                    :filters="filters"
+                    @onFilterChange="setFilter($event)"
                     class="mdl-cell mdl-cell--3-col"
                 />
                 <div class="mdl-grid mdl-cell mdl-cell--9-col">
                     <cmp-search
-                        @onSearch="searchHandler($event)"
+                        @onSearch="fetchHeroes($event)"
                         class="mdl-cell mdl-cell--12-col"
                     />
                     <cmp-heroes
-                        :heroes="filteredHeroes"
+                        :heroes="heroes"
+                        @onChangePage="fetchHeroes($event)"
                     />
                 </div>
             </section>
@@ -30,50 +32,50 @@
 
     export default {
         name: 'Home',
+        data: () => ({
+            filters: [
+                {
+                    name: 'gender',
+                    label: 'Пол',
+                    value:  null,
+                    options: [
+                        {label: 'Все', value: null},
+                        {label: 'Мужчины', value: 'male'},
+                        {label: 'Женщины', value: 'female'},
+                        {label: 'Не указан', value: 'n/a'}
+                    ]
+                }
+            ]
+        }),
         components: {
             'cmp-search': Search,
             'cmp-heroes': Heroes,
             'cmp-filter': Filter
         },
         mounted() {
-            if (!this.allHeroes.length) {
-                this.getHeroes();
+            if (!this.getAllHeroes.data) {
+                this.fetchHeroes();
             }
         },
         computed: {
+            heroes () {
+                let {data, paginatation} = this.getAllHeroes;
 
-            femaleHeroes () {
-               return  this.heroes.filter(hero => hero.gender === 'female')
-            },
-
-            maleHeroes () {
-                return  this.heroes.filter(hero => hero.gender === 'male')
-            },
-
-            naHeroes () {
-                return  this.heroes.filter(hero => hero.gender === 'n/a')
-            },
-
-            filteredHeroes () {
-                switch (this.currentFilter) {
-                    case null: return this.heroes
-                    case 'n/a': return this.naHeroes
-                    case 'female': return this.femaleHeroes
-                    case 'male': return this.maleHeroes
+                switch (this.getCurrentFilter) {
+                    case 'n/a':
+                        return {data: data.filter(hero => hero.gender === 'n/a'), paginatation};
+                    case "female":
+                        return {data: data.filter(hero => hero.gender === 'female'), paginatation};
+                    case "male":
+                        return {data: data.filter(hero => hero.gender === 'male'), paginatation};
+                    default:
+                        return {data, paginatation};
                 }
             },
-            ...mapGetters(["allHeroes", "allFoundHeroes", "getAllFilters", "getIsSearching", "getIsFiltering", "currentFilter"]),
-
-            heroes() {
-                return this.allHeroes;
-            }
+            ...mapGetters(["getAllHeroes", "getFoundHeroes", "getCurrentFilter"]),
         },
         methods: {
-            ...mapActions(['getHeroes', 'searchHero']),
-
-            searchHandler(value) {
-                this.searchHero(value);
-            }
+            ...mapActions(['fetchHeroes', 'setFilter'])
         }
     }
 </script>

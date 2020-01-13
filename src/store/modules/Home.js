@@ -1,36 +1,18 @@
 export default {
     state: {
-        currentFilter: null,
-        filters: [
-            {
-                name: 'gender',
-                label: 'Пол',
-                value:  null,
-                options: [
-                    {label: 'Все', value: null},
-                    {label: 'Мужчины', value: 'male'},
-                    {label: 'Женщины', value: 'female'},
-                    {label: 'Не указан', value: 'n/a'}
-                ]
-            }
-        ]
+        currentFilter: null
     },
     getters: {
-        getIsSearching: state => state.isSearching,
-        getIsFiltering: state => state.isFiltering,
-        getAllFilters: state => state.filters,
-        currentFilter: state => state.currentFilter
+        getCurrentFilter: state => state.currentFilter
     },
     actions: {
-        setFilterValue(context, filter) {
-            context.commit('updateFilterValue', filter);
+        setFilter(context, filter) {
+            context.commit('updateFilter', filter.value);
         }
     },
     mutations: {
-        updateSearching: (state, value) => state.isSearching = value,
-        updateFiltering: (state, value) => state.isFiltering = value,
-        updateFilterValue: (state, filter) => {
-            state.currentFilter = filter.value
+        updateFilter: (state, filter) => {
+            state.currentFilter = filter
         }
     }
 };

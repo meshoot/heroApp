@@ -2,11 +2,11 @@
     <section>
         <ul class="heroes-list mdl-grid">
             <li
-                v-for="hero in heroes"
+                v-for="hero in heroesData"
                 :key="hero.id"
                 class="mdl-cell mdl-cell--4-col"
             >
-                <Hero
+                <cmp-hero
                     :id="hero.id"
                     :photo="hero.photo"
                     :name="hero.name"
@@ -14,6 +14,17 @@
                 />
             </li>
         </ul>
+
+        <template v-if="heroes.paginatation && heroes.data.length">
+            <cmp-paginate
+                    :page-count="heroes.paginatation.count % heroes.data.length + 1"
+                    :prev-text="'Предыдущая'"
+                    :next-text="'Следующая'"
+                    :click-handler="paginationClickHandler"
+                    :container-class="'pagination'"
+                    :page-class="'page-item'"
+            />
+        </template>
     </section>
 </template>
 
@@ -24,9 +35,10 @@
 </style>
 
 <script>
-    import { mapActions } from 'vuex';
+    import { mapActions } from "vuex"
 
     import Hero from "./HeroComponent"
+    import Paginate from "vuejs-paginate"
 
     export default {
         name: "Heroes",
@@ -37,18 +49,44 @@
             }
         },
         components: {
-            Hero
+            "cmp-hero": Hero,
+            "cmp-paginate": Paginate
+        },
+        computed: {
+            heroesData() {
+                return Array.isArray(this.$props.heroes) ? this.$props.heroes : this.$props.heroes.data;
+            }
         },
         methods: {
-            ...mapActions(['addToFavorite', 'removeFromFavorite']),
+            ...mapActions(["addToFavorite", "removeFromFavorite"]),
+
             favoriteHandler(hero) {
                 !hero.isFavorite ? this.addToFavorite(hero) : this.removeFromFavorite(hero);
                 hero.isFavorite = !hero.isFavorite;
+            },
+
+            paginationClickHandler(page) {
+                this.$emit("onChangePage", {page})
             }
         }
     }
 </script>
 
-<style scoped>
+<style lang="scss">
+    .pagination {
+        display: flex;
+        flex-flow: row nowrap;
 
+        li {
+            list-style: none;
+        }
+
+        .page-item {
+            display: block;
+            width: 24px;
+            height: 24px;
+            padding: 0 2px;
+            text-align: center;
+        }
+    }
 </style>

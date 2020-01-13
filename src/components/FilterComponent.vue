@@ -20,7 +20,7 @@
                             name="sex"
                             :id="option.value"
                             :value="option.value"
-                            @input="setFilterValue({name: filter.name, value: option.value})"
+                            @input="filterHandler(option)"
                         >
                         <span class="mdl-radio__label">{{ option.label }}</span>
                     </label>
@@ -31,8 +31,6 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex';
-
     export default {
         name: "FilterComponent",
         props: {
@@ -41,11 +39,10 @@
                 required: true
             }
         },
-        computed: {
-            ...mapGetters(['getAllFilters']),
-        },
         methods: {
-            ...mapActions(['setFilterValue'])
+            filterHandler(filter) {
+                this.$emit('onFilterChange', filter);
+            }
         }
     }
 </script>

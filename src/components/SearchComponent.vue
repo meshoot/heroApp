@@ -16,7 +16,7 @@
         name: "Search",
         methods: {
             onChange(event) {
-                this.$emit('onSearch', event.target.value);
+                this.$emit('onSearch', {search: event.target.value});
             }
         }
     }
