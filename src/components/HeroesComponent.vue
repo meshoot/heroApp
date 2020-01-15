@@ -55,7 +55,7 @@
         },
         computed: {
             heroesData() {
-                return Array.isArray(this.$props.heroes) ? this.$props.heroes : this.$props.heroes.data;
+                return Array.isArray(this.heroes) ? this.heroes : this.heroes.data;
             }
         },
         methods: {
