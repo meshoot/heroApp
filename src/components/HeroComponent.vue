@@ -15,10 +15,13 @@
         </div>
         <div class="mdl-card__actions mdl-card--border">
             <button
-                class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+                v-mdl
+                class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored button-like"
                 @click="onFavoriteClick"
             >
-                <i class="material-icons">favorite-border</i>
+                <i class="material-icons">
+                    {{ isLike ? 'favorite' : 'favorite_border' }}
+                </i>
             </button>
         </div>
     </div>
@@ -40,6 +43,10 @@
     .mdl-card {
         width: auto;
     }
+
+    .button-like i {
+        color: #f44336;
+    }
 </style>
 
 <script>
@@ -57,15 +64,17 @@
                 type: String,
                 required: false
             },
+            isLike: {
+                type: Boolean
+            }
+        },
+        computed: {
+          isLiked: () => this.isLike
         },
         methods: {
             onFavoriteClick() {
-                this.$emit('onFavoriteClick')
+                this.$emit('onFavoriteClick');
             }
         }
     }
 </script>
-
-<style scoped>
-
-</style>

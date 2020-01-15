@@ -11,6 +11,7 @@
 
                 <div class="filter-item__values" v-for="option in filter.options">
                     <label
+                        v-mdl
                         class="mdl-radio mdl-js-radio mdl-js-ripple-effect"
                         :for="option.value"
                     >

@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="">
-        <div class="mdl-textfield mdl-js-textfield">
+        <div v-mdl class="mdl-textfield mdl-js-textfield">
             <input
                 class="mdl-textfield__input"
                 type="text" id="searchField"
@@ -19,7 +19,7 @@
         methods: {
             onChangeSearch: _.debounce(function(event) {
                 this.$emit('onSearch', {search: event.target.value});
-            }, 1000)
+            }, 500)
         }
     }
 </script>

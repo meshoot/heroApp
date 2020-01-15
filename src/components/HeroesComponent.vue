@@ -1,6 +1,6 @@
 <template>
-    <section>
-        <ul class="heroes-list mdl-grid">
+    <section class="mdl-grid">
+        <ul class="heroes-list mdl-grid mdl-cell--12-col">
             <li
                 v-for="hero in heroesData"
                 :key="hero.id"
@@ -10,6 +10,7 @@
                     :id="hero.id"
                     :photo="hero.photo"
                     :name="hero.name"
+                    :isLike="hero.isFavorite"
                     @onFavoriteClick="(favoriteHandler(hero))"
                 />
             </li>
