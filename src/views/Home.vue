@@ -14,7 +14,7 @@
                         class="mdl-cell mdl-cell--12-col"
                     />
                     <cmp-heroes
-                        :heroes="heroes"
+                        :heroes="getAllHeroes"
                         @onChangePage="fetchHeroes($event)"
                     />
                 </div>
@@ -53,26 +53,10 @@
             'cmp-filter': Filter
         },
         mounted() {
-            if (!this.getAllHeroes.data) {
-                this.fetchHeroes();
-            }
+            this.fetchHeroes();
         },
         computed: {
-            heroes () {
-                let {data, paginatation} = this.getAllHeroes;
-
-                switch (this.getCurrentFilter) {
-                    case 'n/a':
-                        return {data: data.filter(hero => hero.gender === 'n/a'), paginatation};
-                    case "female":
-                        return {data: data.filter(hero => hero.gender === 'female'), paginatation};
-                    case "male":
-                        return {data: data.filter(hero => hero.gender === 'male'), paginatation};
-                    default:
-                        return {data, paginatation};
-                }
-            },
-            ...mapGetters(["getAllHeroes", "getFoundHeroes", "getCurrentFilter"]),
+            ...mapGetters(["getAllHeroes", "getFoundHeroes", "getCurrentFilter"])
         },
         methods: {
             ...mapActions(['fetchHeroes', 'setFilter'])
