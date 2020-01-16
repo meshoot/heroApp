@@ -18,10 +18,9 @@
                         <input
                             type="radio"
                             class="mdl-radio__button"
-                            name="sex"
                             :id="option.value"
                             :value="option.value"
-                            @input="filterHandler(option)"
+                            v-model="changeFilter"
                         >
                         <span class="mdl-radio__label">{{ option.label }}</span>
                     </label>
@@ -38,12 +37,23 @@
             filters: {
                 type: [Array, Object],
                 required: true
+            },
+            currentFilter: {
+                type: String
             }
         },
+        computed: {
+          changeFilter: {
+              get() {
+                  return this.currentFilter
+              },
+              set(filter) {
+                  this.$emit('onFilterChange', filter);
+              }
+          }
+        },
         methods: {
-            filterHandler(filter) {
-                this.$emit('onFilterChange', filter);
-            }
+
         }
     }
 </script>

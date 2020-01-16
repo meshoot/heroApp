@@ -3,6 +3,7 @@ import {API_URL} from "../../../api/config";
 
 export default {
     state: {
+        isLoad: false,
         heroes: {},
         currentFilter: null
     },
@@ -32,7 +33,8 @@ export default {
             }
         },
         getFoundHeroes: state => state.foundHeroes,
-        getCurrentFilter: state => state.currentFilter
+        getCurrentFilter: state => state.currentFilter,
+        getLoad: state => state.isLoad
     },
     actions: {
         fetchHeroes(context, params) {
@@ -40,7 +42,7 @@ export default {
                 .then(response => response.data)
                 .then(data => {
                     let heroes = {};
-
+                    context.commit('updateLoad', true);
                     heroes.data = data.results.map(hero => ({
                         id: slicePeopleId(hero.url),
                         photo: `https://starwars-visualguide.com/assets/img/characters/${slicePeopleId(hero.url)}.jpg`,
@@ -56,11 +58,12 @@ export default {
                     };
 
                     context.commit('updateHeroes', heroes);
+                    context.commit('updateLoad', false);
                 })
                 .catch(error => console.log(error));
         },
         setFilter(context, filter) {
-            context.commit('updateFilter', filter.value);
+            context.commit('updateFilter', filter);
         }
     },
     mutations: {
@@ -69,7 +72,8 @@ export default {
         },
         updateHeroes: (state, heroes) => {
             state.heroes = heroes;
-        }
+        },
+        updateLoad: (state, value) => state.isLoad = value
     }
 };
 

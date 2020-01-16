@@ -5,6 +5,7 @@
             <section class="mdl-grid">
                 <cmp-filter
                     :filters="filters"
+                    :currentFilter="getCurrentFilter"
                     @onFilterChange="setFilter($event)"
                     class="mdl-cell mdl-cell--3-col"
                 />
@@ -53,7 +54,7 @@
             'cmp-filter': Filter
         },
         mounted() {
-            this.fetchHeroes();
+            if (!this.getAllHeroes.data) this.fetchHeroes();
         },
         computed: {
             ...mapGetters(["getAllHeroes", "getFoundHeroes", "getCurrentFilter"])

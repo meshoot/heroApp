@@ -1,31 +1,40 @@
 <template>
     <section class="mdl-grid">
-        <ul class="heroes-list mdl-grid mdl-cell--12-col">
-            <li
-                v-for="hero in heroesData"
-                :key="hero.id"
-                class="mdl-cell mdl-cell--4-col"
-            >
-                <cmp-hero
-                    :id="hero.id"
-                    :photo="hero.photo"
-                    :name="hero.name"
-                    :isLike="hero.isFavorite"
-                    @onFavoriteClick="(favoriteHandler(hero))"
-                />
-            </li>
-        </ul>
+        <div v-if="!getLoad">
+            <ul class="heroes-list mdl-grid mdl-cell--12-col">
+                <li
+                        v-for="hero in heroesData"
+                        :key="hero.id"
+                        class="mdl-cell mdl-cell--4-col"
+                >
+                    <cmp-hero
+                            :id="hero.id"
+                            :photo="hero.photo"
+                            :name="hero.name"
+                            :isLike="hero.isFavorite"
+                            @onFavoriteClick="(favoriteHandler(hero))"
+                    />
+                </li>
+            </ul>
 
-        <template v-if="heroes.paginatation && heroes.data.length">
-            <cmp-paginate
-                    :page-count="heroes.paginatation.count % heroes.data.length + 1"
-                    :prev-text="'Предыдущая'"
-                    :next-text="'Следующая'"
-                    :click-handler="paginationClickHandler"
-                    :container-class="'pagination'"
-                    :page-class="'page-item'"
-            />
-        </template>
+            <template v-if="heroes.paginatation && heroes.data.length">
+                <cmp-paginate
+                        :page-count="heroes.paginatation.count % heroes.data.length + 1"
+                        :prev-text="'Предыдущая'"
+                        :next-text="'Следующая'"
+                        :click-handler="paginationClickHandler"
+                        :container-class="'pagination'"
+                        :page-class="'page-item'"
+                />
+            </template>
+        </div>
+
+        <div
+            id="p2"
+            class="mdl-progress mdl-js-progress mdl-progress__indeterminate"
+            v-else
+            v-mdl
+        />
     </section>
 </template>
 
@@ -36,7 +45,7 @@
 </style>
 
 <script>
-    import { mapActions } from "vuex"
+    import { mapActions, mapGetters } from "vuex"
 
     import Hero from "./HeroComponent"
     import Paginate from "vuejs-paginate"
@@ -54,8 +63,9 @@
             "cmp-paginate": Paginate
         },
         computed: {
+            ...mapGetters(["getLoad"]),
+
             heroesData() {
-                console.log(this.heroes)
                 return Array.isArray(this.heroes) ? this.heroes : this.heroes.data;
             }
         },
