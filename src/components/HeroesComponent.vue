@@ -42,6 +42,30 @@
     .heroes-list {
         list-style: none;
     }
+
+    .pagination {
+        display: flex;
+        flex-flow: row nowrap;
+
+        li {
+            list-style: none;
+            padding: 0 8px;
+            &.active {
+                background: #ff4081;
+                a {
+                    color: #ffffff;
+                }
+            }
+        }
+
+        .page-item {
+            display: block;
+            width: 24px;
+            height: 24px;
+            padding: 0 2px;
+            text-align: center;
+        }
+    }
 </style>
 
 <script>
@@ -83,22 +107,3 @@
         }
     }
 </script>
-
-<style lang="scss">
-    .pagination {
-        display: flex;
-        flex-flow: row nowrap;
-
-        li {
-            list-style: none;
-        }
-
-        .page-item {
-            display: block;
-            width: 24px;
-            height: 24px;
-            padding: 0 2px;
-            text-align: center;
-        }
-    }
-</style>
