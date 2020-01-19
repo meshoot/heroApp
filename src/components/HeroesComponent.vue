@@ -3,23 +3,25 @@
         <div v-if="!getLoad">
             <ul class="heroes-list mdl-grid mdl-cell--12-col">
                 <li
-                        v-for="hero in heroesData"
-                        :key="hero.id"
-                        class="mdl-cell mdl-cell--4-col"
+                    v-mdl
+                    v-for="hero in heroesData"
+                    :key="hero.id"
+                    class="mdl-cell mdl-cell--4-col"
                 >
                     <cmp-hero
-                            :id="hero.id"
-                            :photo="hero.photo"
-                            :name="hero.name"
-                            :isLike="hero.isFavorite"
-                            @onFavoriteClick="(favoriteHandler(hero))"
+                        :id="hero.id"
+                        :photo="hero.photo"
+                        :name="hero.name"
+                        :isLike="hero.isFavorite"
+                        :planet="hero.planet"
+                        @onFavoriteClick="(favoriteHandler(hero))"
                     />
                 </li>
             </ul>
 
             <template v-if="heroes.paginatation && heroes.data.length">
                 <cmp-paginate
-                        :page-count="heroes.paginatation.count % heroes.data.length + 1"
+                        :page-count="Math.round(heroes.paginatation.count / 10)"
                         :prev-text="'Предыдущая'"
                         :next-text="'Следующая'"
                         :click-handler="paginationClickHandler"

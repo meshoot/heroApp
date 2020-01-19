@@ -10,7 +10,7 @@
         </div>
         <div class="mdl-card__supporting-text">
             <div>
-                <b>Место рождения: </b>
+                <b>Планета: {{ planet }}</b>
             </div>
         </div>
         <div class="mdl-card__actions mdl-card--border">
@@ -63,6 +63,9 @@
             photo: {
                 type: String,
                 required: false
+            },
+            planet: {
+              type: String
             },
             isLike: {
                 type: Boolean
